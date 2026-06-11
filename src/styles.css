@@ -1,0 +1,40 @@
+:root {
+  --bg: #0c0c10;
+  --panel: #15151c;
+  --panel-2: #1d1d27;
+  --line: #2a2a38;
+  --text: #e8e6df;
+  --muted: #8a8896;
+  --gold: #d8a531;
+  --ward-blue: #4d8fd1;
+  --black-bar: #0a0a0a;
+  --red: #e0432d;
+  --green: #4caf6e;
+  --amber: #d8a531;
+  --wrath: #e0432d;
+  --fear: #e8e3d5;
+  --despair: #3d6fa8;
+  --desire: #d8a531;
+  --apathy: #6e6e6e;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 28px;
+  letter-spacing: 0.3em;
+  color: var(--muted);
+}
