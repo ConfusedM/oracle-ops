@@ -184,9 +184,10 @@ body.wall-mode { overflow: hidden; }
 /* ticker */
 .ticker {
   grid-area: ticker; background: #08080c; border-top: 1px solid var(--line);
-  padding: 8px 22px; overflow: hidden; display: flex; flex-direction: column; gap: 2px; z-index: 2;
+  padding: 6px 22px; overflow: hidden; display: flex; flex-direction: column; gap: 1px; z-index: 2;
+  justify-content: flex-start;
 }
-.ticker-item { font-size: 15.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.35; }
+.ticker-item { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.35; flex: 0 0 auto; }
 .ticker-gm { color: var(--muted); font-size: 0.85em; margin-right: 8px; }
 .ticker-new { animation: slide-in 0.4s ease; }
 .ticker-big { font-weight: 800; color: var(--gold); font-size: 18px; }

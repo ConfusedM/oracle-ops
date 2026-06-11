@@ -4,7 +4,7 @@ const BIG_ACTIONS = ['block1.surge', 'block2.breach', 'block1.slain', 'plate.adj
 
 export default function Ticker() {
   const events = useEvents()
-  const shown = events.filter((e) => e.ticker).slice(0, 8)
+  const shown = events.filter((e) => e.ticker).slice(0, 4)
   return (
     <div className="ticker">
       {shown.map((e, i) => (
