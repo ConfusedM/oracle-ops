@@ -74,8 +74,9 @@ Storage bucket `audio`: uploaded files, public read. Metadata (name, type loop/o
 - `block1`: `{ horrors: { kaervox|shepherd|mournweight|maw|grey: 'fighting'|'bloodied'|'slain'|'broken' }, surgesFired: [...] }`
 - `block2`: `{ sections: [{ id: 1..6, name, state: 'held'|'magicDown'|'willBroken'|'breached', skeletonPosted: bool, skeletonText }], children: { delivered: number, named: string[] } }`
 - `block3`: `{ hexes: { '01'..'26': { cleared, icons: ['distress'|'lantern'|'request'], glow } }, teams: { t1..t6: hexId }, pulse: { blue, grey }, immune: 0..10, advantagesTaken: { bankedAnswer?: player, ... }, lodestars: [...] }`
-- `director`: `{ wallFocus: 'banners'|'breach'|'hexmap'|'economy'|'custom', announcement: string|null }`
+- `director`: `{ wallFocus: 'banners'|'breach'|'hexmap'|'economy'|'media', media: { activeId: string|null, mode: 'fullscreen'|'backdrop' }, announcement: string|null }`
 - `audio`: `{ library: [{ id, name, url, kind: 'loop'|'oneshot', gain }], playing: [{ id, startedAt, loop }], masterGain }`
+- `media` (in `state.audio`-style namespace or its own row): `{ library: [{ id, name, url, kind: 'image'|'video' }] }` — videos always loop, muted (audio comes from the soundboard)
 
 Timers are stored as `{ id, label, endsAt | startedAt+duration, repeating?, paused? }` — clients render countdowns from server timestamps, so all rooms agree to the second.
 
@@ -86,6 +87,7 @@ One layout, mirrored on all TVs, designed for across-the-room legibility:
 - **Main panel** (~70% of screen) — set by scene director:
   - **Banners** (Block 1): five Horror cards with state (Fighting / Bloodied / Slain / Broken) in their colors (the Grey's card deliberately colorless).
   - **Breach Board** (Block 2): six sections × HELD → MAGIC DOWN → WILL BROKEN → BREACHED, plus the skeleton margin listing each posted keyhole couplet (text entered by GMs). A BREACH flips that section warm gold with a room-wide flash + horn.
+  - **Media scene**: an uploaded image or looping video, fullscreen. Any other focus may optionally layer over a media **backdrop** (dimmed behind the panel).
   - **Hex map** (Block 3): SVG hex grid in the reference layout (rows A 01–05★ / B 06–11 / C 12–16 / D 17–22 / E 23★–26), fog tiles that pull away when cleared, six colored team markers, distress / guttered-lantern / request icons, ⬡ rally and ★ exit marks, blue/grey Pulse totals, Immune Response dial, hex 26 green-gold glow effect when witnessed.
 - **Sidebar** (always visible, every block): Hope Titan bowl level (large number + bar), the three bars with zone colors (Morale gold / Army ward-blue / Enemy black), Dragon Call chits remaining, active timers (Hourglass, Rear Tide, Gullet wave, scene clock).
   - At 6:30 the ENEMY bar plays a retirement animation and is replaced by **the Plate** (current / threshold, large, black).
@@ -107,7 +109,8 @@ Common header: bowl +/− (with d6 roller for "+1d6" awards; a one-line reason r
 
 Everything above, plus:
 
-- **Scene director:** set wall main-panel focus; switch active block (carries bowl, retires/restores bars); push a full-screen announcement (e.g. THE DRAFT — 12:00 countdown, BATTLE STATIONS — 3:00).
+- **Scene director:** set wall main-panel focus; switch active block (carries bowl, retires/restores bars); push a full-screen announcement (e.g. THE DRAFT — 12:00 countdown, BATTLE STATIONS — 3:00); **media scenes** — upload images/videos (drag/drop → Supabase storage), push any one fullscreen or as a dimmed backdrop behind the current panel; videos loop muted (sound comes from the soundboard).
+- **The bars:** Morale / Army / Enemy +/− controls with each block's rise/fall reasons as quick chips (e.g. Morale: "BREACH", "child delivered", "PC death"; Army: "clean hold", "escaped breaker", "dragon lost"). Zone boundaries per the runbooks; every zone-crossing auto-announces on the ticker ("ARMY falls to RED — corridor capacity halves") and the wall shows the active zone's mechanical effect beside each bar. At 6:30 the ENEMY bar's retirement is a director button (plays the replacement animation, brings in the Plate).
 - **Timers & horns:** start/pause/reset Hourglass, Rear Tide (repeating 15 min, fires low-horn + ticker each cycle), Gullet wave (~12 min, alternating table label), scene clock with each block's runbook scene list and budgets. Each timer can fire a sound on completion.
 - **Soundboard:** upload audio (drag/drop → Supabase storage); tag loop/one-shot; set per-clip gain; play/stop loops (marching, Titan drumbeat, flesh ambience); fire one-shots (short horn, two horns, long horn, dragon shriek); master volume. All playback synchronized across TVs via realtime broadcast.
 - **Plate console (6:30):** set opening count + threshold (default 25); all rise/fall buttons; the Plate's every move is announced ("dread you can calculate breeds heroism").
@@ -143,7 +146,7 @@ Everything above, plus:
 4. Wall main panels: banners → Breach Board → hex map.
 5. GM panel tabs (1, 2, 3) + Betrayal calculator.
 6. Lead panel: director, timers, Plate console, day admin.
-7. Audio: upload, library, loop sync, one-shots.
+7. Audio + media: uploads, library, loop sync, one-shots, image/video scenes.
 8. Polish pass: animations (BREACH gold, Plate retirement, hex 26 glow), legibility at TV distance.
 9. Deploy to Vercel; load-test with 6 phones; dry-run script of one block.
 
