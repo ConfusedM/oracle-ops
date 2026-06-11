@@ -18,7 +18,7 @@ export default function HexMapPanel({ interactive, onHexTap }: { interactive?: b
   return (
     <div className="hexmap-wrap">
       <svg className="hexmap" viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} preserveAspectRatio="xMidYMid meet">
-        <text x={VIEW_W / 2} y={34} className="hexmap-title" textAnchor="middle">THE FOLDED FLESH — B9</text>
+        <text x={VIEW_W / 2} y={30} className="hexmap-title" textAnchor="middle">THE FOLDED FLESH — B9</text>
         {HEXES.map((h) => {
           const { x, y } = hexCenter(h)
           const hs = b3.hexes[h.id] ?? {}
@@ -48,9 +48,9 @@ export default function HexMapPanel({ interactive, onHexTap }: { interactive?: b
               ))}
               {occupants.map((t, i) => (
                 <g key={t}>
-                  <circle cx={x - ((occupants.length - 1) * 13) / 2 + i * 13} cy={y + 16} r={11}
+                  <circle cx={x - ((occupants.length - 1) * 24) / 2 + i * 24} cy={y + 16} r={11}
                     fill={TEAM_COLORS[t]} className="team-marker" />
-                  <text x={x - ((occupants.length - 1) * 13) / 2 + i * 13} y={y + 20.5}
+                  <text x={x - ((occupants.length - 1) * 24) / 2 + i * 24} y={y + 20.5}
                     textAnchor="middle" className="team-marker-label">{t.slice(1)}</text>
                 </g>
               ))}

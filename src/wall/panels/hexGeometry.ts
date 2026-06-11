@@ -13,12 +13,12 @@ export const HEXES: HexDef[] = [
 ]
 
 export const HEX_R = 52
-export const VIEW_W = 1150
-export const VIEW_H = 640
+export const VIEW_W = 700
+export const VIEW_H = 540
 
 export const hexCenter = (h: HexDef) => ({
-  x: 95 + h.col * HEX_R * 1.9,
-  y: 80 + h.row * HEX_R * 2.25,
+  x: 78 + h.col * HEX_R * 1.78,
+  y: 118 + h.row * HEX_R * 1.55,
 })
 
 export const hexPoints = (cx: number, cy: number, r: number) =>
