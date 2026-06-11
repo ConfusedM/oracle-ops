@@ -140,10 +140,12 @@ export async function timerRollRepeating(t: Timer): Promise<boolean> {
 }
 
 export async function timerExpireOnce(t: Timer): Promise<boolean> {
-  // Non-repeating: remove it; the remove-winner announces. Uses the same CAS via oo_timer_roll into the past, then filters.
+  // CAS-claim the expired timer (endsAt -> 'EXPIRED'); exactly one caller wins, then removes it.
+  const { data: won } = await supabase.rpc('oo_timer_roll', {
+    p_timer_id: t.id, p_old_ends_at: t.endsAt, p_new_ends_at: 'EXPIRED',
+  })
+  if (won !== true) return false
   const shared = await fetchState<SharedState>('shared')
-  const exists = shared.timers.find((x) => x.id === t.id && x.endsAt === t.endsAt)
-  if (!exists) return false
   await timersWrite(shared.timers.filter((x) => x.id !== t.id))
   return true
 }
