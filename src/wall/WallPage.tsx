@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useGameState, sinceLastSync } from '../lib/useGameState'
 import { remainingSec, fmt } from '../lib/time'
+import Hud from './Hud'
 import Sidebar from './Sidebar'
 import Ticker from './Ticker'
 import AudioEngine from './AudioEngine'
@@ -35,6 +36,7 @@ export default function WallPage() {
   return (
     <div className="wall">
       <MediaLayer mode="backdrop" />
+      <Hud />
       <div className="wall-main">
         {focus === 'banners' && <BannersPanel />}
         {focus === 'breach' && <BreachPanel />}

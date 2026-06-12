@@ -46,7 +46,7 @@ export default function GmPage() {
         <button className="gm-name" onClick={() => { localStorage.removeItem('gmName'); setGm(null) }}>{gm}</button>
         <span className="gm-block">BLOCK {shared?.activeBlock ?? '—'}</span>
         <button className={`btn btn-sm ${showBowl ? 'btn-on' : ''}`} onClick={() => setShowBowl(!showBowl)}>
-          BOWL {shared?.bowl ?? ''}
+          HOPE {shared?.bowl ?? ''}
         </button>
       </div>
       {showBowl && <BowlControl gm={gm} />}

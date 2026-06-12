@@ -16,7 +16,7 @@ export default function BowlControl({ gm }: { gm: string }) {
   }
   return (
     <div className="bowl-control">
-      <div className="bowl-control-value">BOWL: <b>{shared?.bowl ?? '—'}</b></div>
+      <div className="bowl-control-value">HOPE: <b>{shared?.bowl ?? '—'}</b></div>
       <input
         className="input" placeholder="reason (required — announce what bought it)"
         value={reason} onChange={(e) => setReason(e.target.value)}

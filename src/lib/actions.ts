@@ -32,7 +32,7 @@ export async function bowlAdjust(gm: string, delta: number, reason: string, opts
   const v = await increment('shared', ['bowl'], delta, 0)
   await logEvent(gm, 'bowl.adjust', {
     delta, reason, value: v.data,
-    text: `${delta > 0 ? '+' : ''}${delta} HOPE — ${reason} (bowl: ${v.data})`,
+    text: `${delta > 0 ? '+' : ''}${delta} HOPE — ${reason} (HOPE: ${v.data})`,
   }, !opts.silent)
   return v.data as number
 }
@@ -173,7 +173,7 @@ export async function rearTideAnswer(gm: string, kind: 'blood' | 'hope') {
     })
   } else {
     await bowlAdjust(gm, -2, 'Rear Tide answered with HOPE', { silent: true })
-    await logEvent(gm, 'tide.answer', { kind, text: 'REAR TIDE answered with HOPE — 2 dice from the bowl' })
+    await logEvent(gm, 'tide.answer', { kind, text: 'REAR TIDE answered with HOPE — 2 HOPE spent' })
   }
 }
 
@@ -181,7 +181,7 @@ export async function setTitanSevered(gm: string, severed: boolean) {
   await merge('shared', { titanSevered: severed })
   await logEvent(gm, 'titan.severed', {
     severed,
-    text: severed ? 'THE TITAN IS SEVERED — no calls, no bowl spends. It pounds.' : 'THE TITAN\'S REACH IS RESTORED.',
+    text: severed ? 'THE TITAN IS SEVERED — no calls, no HOPE spends. It pounds.' : 'THE TITAN\'S REACH IS RESTORED.',
   })
 }
 
@@ -434,7 +434,7 @@ export async function resetDay(gm: string) {
   for (const key of Object.keys(SEED)) {
     await supabase.from(T_STATE).update({ data: SEED[key], updated_at: new Date().toISOString() }).eq('key', key)
   }
-  await logEvent(gm, 'admin.resetday', { text: 'THE DAY IS RESET — the bowl stands at 60.' })
+  await logEvent(gm, 'admin.resetday', { text: 'THE DAY IS RESET — HOPE stands at 60.' })
 }
 
 export async function exportLogCsv(): Promise<string> {
