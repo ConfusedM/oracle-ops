@@ -11,28 +11,28 @@ PSD assets, keeping all live game state (horror state, marks) as HTML overlays.
 
 ## Source assets
 
-- `graphicriver-k9saayBI-trading-card-game-creator-vol-11-horror/Card-front.psd`
-  (750×1050, layered: background, art window 133,155–618,683, wooden name plate
-  with teeth, description area, card class line, skull rarity pips, stat orbs,
-  lanterns/sparks/fog foreground)
-- Licensed via Envato subscription (license sidecar to be kept alongside
-  extracted assets, consistent with `assets-envato/` convention).
+- `chosencardgame/Card-front.psd` (750×1050, layered: stone background, circular
+  art window 67,94–684,706, ornate gold ring frame with rarity gem, name banner,
+  parchment description block, stat triangles/circles, stat icons). Chosen over
+  the "Vol 11 — Horror" pack after comparing renders.
+- Licensed via Envato subscription (license readme retained in the source folder).
 
 ## Approach
 
 A Python build script (`tcg-extract/build_cards.py`, repo-adjacent) renders the
 PSD with psd-tools in two passes:
 
-1. **`card-bg.png`** — BACKGROUND group only (full-bleed card background
-   including the art-window area).
+1. **`card-bg.png`** — Background group only (full-bleed stone background
+   including the dark art-window area).
 2. **`card-frame.png`** — everything above the artwork with the background and
-   all placeholder text hidden (name plate wood + teeth + vines, description
-   parchment, lanterns, sparks, fog) composited on transparency.
-3. **`skull.png`** — single skull pip extracted from the CARD RARITY group.
+   all placeholder text hidden (ring frame + ornament, art-window inner shadow,
+   parchment, name banner, left stat circle, rarity gem) composited on
+   transparency. The originally-hidden LEFT/RIGHT side color overrides stay
+   hidden to preserve the gold finish.
 
-Stat orb groups (STAT HOLDER LEFT/RIGHT) are hidden — cards stay clean.
-Placeholder text layers (CARD NAME, description, CARD CLASS, stat numbers,
-skulls) are hidden.
+Hidden entirely: STAT TRIANGLE, STAT TRIANGLE WITH GEM, STAT ROUNDED RIGHT,
+STAT ICONS, and all placeholder text (UPLOAD YOUR ART, CARD NAME, stat VALUEs,
+DESCRIPTION, CLASS/RACE).
 
 Per-horror color theming is applied in the script (hue-preserving tint of the
 *background* toward each horror's color; frame overlay stays original) producing
@@ -49,12 +49,12 @@ A card is a fixed-aspect (5:7) stack, all positions in % of the 750×1050 frame:
 | Layer | Content |
 |---|---|
 | background | `tcg/card-bg-<id>.png` |
-| art | `<img src="horrors/<id>.png">` clipped to the art window; hidden on 404 (user supplies art later) |
+| art | `<img src="horrors/<id>.png">` clipped circular to the art window; hidden on 404 (user supplies art later) |
 | frame | `tcg/card-frame.png` |
-| name plate | horror **emotion** (WRATH …) in Cinzel, horror color |
-| description | full horror name + GM; when slain → death line ("ALL X IS LIFTED") |
+| name banner | horror **emotion** (WRATH …) in Cinzel, horror color |
+| parchment | full horror name; when slain → death line ("ALL X IS LIFTED") |
 | class line | GM name |
-| pips | one `skull.png` per mark, max 5 shown then "×N" |
+| marks | marks count in the left stat circle |
 
 ### State treatments (CSS)
 

@@ -349,26 +349,70 @@ body.wall-mode { overflow: hidden; }
 .media-full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
 .media-backdrop { position: fixed; inset: 0; width: 100vw; height: 100vh; object-fit: cover; opacity: 0.22; z-index: 0; }
 
-/* banners panel */
-.banners { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; padding: 30px; width: 100%; }
-.banner {
-  border: 3px solid var(--horror, var(--line)); border-radius: 16px; background: var(--panel);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 20px 10px; text-align: center;
-  box-shadow: 0 0 40px color-mix(in srgb, var(--horror, #000) 18%, transparent);
+/* banners panel — horror trading cards */
+.banners { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; padding: 30px; width: 100%; align-content: center; }
+.tcg-card {
+  position: relative; aspect-ratio: 750 / 1050; width: 100%;
+  container-type: inline-size;
+  filter: drop-shadow(0 0 24px color-mix(in srgb, var(--horror, #000) 25%, transparent));
 }
-.banner-grey { border-color: #3a3a3a; box-shadow: none; background: #131315; }
-.banner-emotion { font-family: Cinzel, Georgia, serif; font-size: 34px; font-weight: 800; letter-spacing: 0.12em; color: var(--horror, var(--text)); }
-.banner-grey .banner-emotion { color: #777; }
-.banner-name { color: var(--muted); font-size: 14px; letter-spacing: 0.08em; min-height: 34px; }
-.banner-state { font-family: Cinzel, Georgia, serif; font-size: 21px; font-weight: 800; letter-spacing: 0.15em; padding: 8px 16px; border-radius: 10px; background: var(--panel-2); }
-.banner-state-bloodied { color: var(--amber); animation: zone-alarm 1.4s infinite; }
-.banner-state-slain { color: var(--green); }
-.banner-state-broken { color: var(--red); }
-.banner-bloodied { filter: saturate(0.75); }
-.banner-bloodied::after { content: ''; }
-.banner-slain { opacity: 0.75; filter: saturate(0.4) brightness(0.8); }
-.banner-lifted { color: var(--green); font-size: 14px; letter-spacing: 0.12em; font-weight: 700; }
-.banner-marks { color: var(--muted); font-size: 12px; min-height: 16px; }
+.tcg-layer { position: absolute; inset: 0; width: 100%; height: 100%; user-select: none; }
+/* art window: circle at (67,94)-(684,706) of 750x1050 */
+.tcg-art {
+  position: absolute; left: 8.9%; top: 8.95%; width: 82.3%; height: 58.3%;
+  object-fit: cover; border-radius: 50%; user-select: none;
+}
+/* name banner text zone, centered on the wooden plate (123,550)-(627,689) */
+.tcg-name {
+  position: absolute; left: 18%; right: 18%; top: 56.8%; height: 6.4%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: Cinzel, Georgia, serif; font-weight: 800; font-size: 7.5cqw;
+  letter-spacing: 0.14em; color: var(--horror, #e8dcb8);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.85);
+}
+/* parchment description (85,809)-(667,919) */
+.tcg-desc {
+  position: absolute; left: 13%; right: 13%; top: 76.5%; height: 11%;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  font-family: 'IM Fell English', Georgia, serif; font-size: 4.6cqw; line-height: 1.3;
+  color: #2b2218;
+}
+.tcg-deathline { font-style: italic; font-weight: 700; }
+/* class/race line (306,963)-(445,982) */
+.tcg-gm {
+  position: absolute; left: 25%; right: 25%; top: 91.2%; height: 3%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: Cinzel, Georgia, serif; font-size: 3.4cqw; letter-spacing: 0.3em;
+  color: #4a3c2a;
+}
+/* marks count in the left stat circle, value zone (69,717)-(117,759) */
+.tcg-marks {
+  position: absolute; left: 6.2%; top: 67.5%; width: 12.5%; height: 5%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: Cinzel, Georgia, serif; font-weight: 800; font-size: 6cqw;
+  color: #f0e6c8; text-shadow: 0 2px 3px rgba(0, 0, 0, 0.9);
+}
+/* state stamp across the art window */
+.tcg-stamp {
+  position: absolute; left: 4%; right: 4%; top: 30%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: Cinzel, Georgia, serif; font-weight: 900; font-size: 11cqw;
+  letter-spacing: 0.18em; text-align: center; transform: rotate(-14deg);
+  text-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+.tcg-stamp-bloodied { color: var(--amber); animation: zone-alarm 1.4s infinite; }
+.tcg-stamp-slain { color: var(--green); }
+.tcg-stamp-broken { color: var(--red); font-size: 8.5cqw; }
+.tcg-bloodied .tcg-art { filter: saturate(1.15) contrast(1.05) sepia(0.25) hue-rotate(-20deg); }
+.tcg-bloodied::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: 4%;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(160, 20, 10, 0.45) 100%);
+}
+.tcg-slain { filter: saturate(0.35) brightness(0.75) drop-shadow(0 0 24px color-mix(in srgb, var(--horror, #000) 25%, transparent)); }
+.tcg-slain .tcg-stamp { filter: saturate(2.4) brightness(1.4); }
+.tcg-broken { filter: grayscale(0.85) brightness(0.65) drop-shadow(0 0 24px color-mix(in srgb, var(--horror, #000) 25%, transparent)); }
+.tcg-broken .tcg-stamp { filter: saturate(2.4) brightness(1.6); }
 
 /* breach panel */
 .breach-wrap { display: flex; flex-direction: column; width: 100%; padding: 26px 30px; gap: 16px; }
