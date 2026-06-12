@@ -42,7 +42,7 @@ export default function WallPage() {
         {focus === 'breach' && <BreachPanel />}
         {focus === 'hexmap' && <HexMapPanel />}
         {focus === 'economy' && <EconomyPanel />}
-        {focus === 'media' && <MediaLayer mode="fullscreen" />}
+        {focus === 'media' && (director?.mediaId ? <MediaLayer mode="fullscreen" /> : <EconomyPanel />)}
       </div>
       <Sidebar />
       <Ticker />

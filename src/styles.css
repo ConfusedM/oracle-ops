@@ -125,7 +125,7 @@ body.wall-mode { overflow: hidden; }
 .wall {
   display: grid; height: 100vh; position: relative;
   grid-template-columns: 1fr 300px;
-  grid-template-rows: 168px 1fr 92px;
+  grid-template-rows: 204px 1fr 92px;
   grid-template-areas: 'hud hud' 'main side' 'ticker ticker';
   background:
     radial-gradient(1200px 500px at 50% -10%, rgba(216, 165, 49, 0.05), transparent 60%),
@@ -148,19 +148,23 @@ body.wall-mode { overflow: hidden; }
   border-bottom: 2px solid #3a2f17;
   box-shadow: 0 2px 0 rgba(216, 165, 49, 0.12), 0 10px 30px rgba(0, 0, 0, 0.6);
 }
-.hud-bars { flex: 1; display: flex; flex-direction: column; gap: 9px; }
+.hud-bars { flex: 1; display: flex; flex-direction: column; gap: 4px; }
 
 /* --- the HOPE orb (it drains as hope is spent) --- */
-.orb-wrap { display: flex; flex-direction: column; align-items: center; gap: 2px; animation: pulse-in 0.6s ease; }
+.orb-wrap { display: flex; flex-direction: column; align-items: center; gap: 0; animation: pulse-in 0.6s ease; }
+.orb-rig { position: relative; width: 232px; height: 127px; }
+.orb-art {
+  position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+}
 .orb {
-  width: 126px; height: 126px; border-radius: 50%; position: relative; overflow: hidden;
+  position: absolute; left: 50%; top: 50.5%; transform: translate(-50%, -50%); z-index: 1;
+  width: 88px; height: 88px; border-radius: 50%; overflow: hidden;
   background: radial-gradient(circle at 50% 45%, #0a1722 0%, #04090f 75%);
-  border: 4px solid #6b5a2e;
   box-shadow:
     inset 0 0 24px rgba(0, 0, 0, 0.9),
-    0 0 0 2px #1a1408,
-    0 0 28px rgba(77, 143, 209, 0.4),
-    0 0 70px rgba(77, 143, 209, 0.18);
+    0 0 28px rgba(77, 143, 209, 0.45),
+    0 0 70px rgba(77, 143, 209, 0.2);
 }
 .orb-liquid {
   position: absolute; left: 0; right: 0; bottom: 0;
@@ -177,20 +181,21 @@ body.wall-mode { overflow: hidden; }
   border-radius: 50%; pointer-events: none;
 }
 .orb-num {
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  font-family: Cinzel, Georgia, serif; font-weight: 900; font-size: 46px; color: #f3f8ff;
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 3;
+  font-family: Cinzel, Georgia, serif; font-weight: 900; font-size: 38px; color: #f3f8ff;
   text-shadow: 0 0 12px rgba(10, 30, 50, 0.95), 0 2px 4px rgba(0, 0, 0, 0.9);
+  padding-top: 2px;
 }
 .orb-label {
-  font-family: Cinzel, Georgia, serif; font-weight: 700; font-size: 17px; letter-spacing: 0.42em;
-  color: var(--gold); text-shadow: 0 0 14px rgba(216, 165, 49, 0.5); margin-left: 0.42em;
+  font-family: Cinzel, Georgia, serif; font-weight: 700; font-size: 16px; letter-spacing: 0.42em;
+  color: var(--gold); text-shadow: 0 0 14px rgba(216, 165, 49, 0.5); margin-left: 0.42em; margin-top: -4px;
 }
 .orb-severed { filter: saturate(0.45) brightness(0.8); }
 .orb-chains { color: var(--red); font-size: 11px; font-weight: 800; letter-spacing: 0.2em; animation: pound 2.4s infinite; }
 @keyframes pound { 0%, 88% { opacity: 0.85; } 92% { opacity: 1; transform: scale(1.06); } 100% { opacity: 0.85; } }
 @keyframes pulse-in { 0% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-/* --- classic game bars --- */
+/* --- classic game bars (Envato frame art, 3-slice) --- */
 .gb-row { display: flex; align-items: center; gap: 14px; }
 .gb-plate {
   width: 132px; text-align: right; flex: 0 0 auto;
@@ -198,19 +203,17 @@ body.wall-mode { overflow: hidden; }
   color: #d9c89a; text-shadow: 0 2px 3px #000, 0 0 18px rgba(216, 165, 49, 0.25);
 }
 .gb-plate-dark { color: #b8b8c0; text-shadow: 0 2px 3px #000, 0 0 18px rgba(224, 67, 45, 0.3); }
-.gb-frame {
-  position: relative; flex: 1; height: 36px; border-radius: 5px;
-  background: linear-gradient(180deg, #4a3d20 0%, #2a2210 35%, #15110a 100%);
-  padding: 4px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 230, 170, 0.25),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.8),
-    0 2px 6px rgba(0, 0, 0, 0.7);
+.gb-frame { position: relative; flex: 1; height: 56px; max-width: 1280px; }
+.gb-art {
+  position: absolute; inset: 0; display: flex; z-index: 2; pointer-events: none;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.6));
 }
+.gb-art img { height: 100%; width: auto; }
+.gb-art .gb-art-m { flex: 1 1 auto; width: 100%; min-width: 0; object-fit: fill; }
 .gb-well {
-  position: relative; height: 100%; border-radius: 3px; overflow: hidden;
+  position: absolute; inset: 32.5% 30px 19% 30px; border-radius: 6px; overflow: hidden; z-index: 1;
   background: linear-gradient(180deg, #06060a 0%, #101016 80%, #16161e 100%);
-  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.95), inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.95);
 }
 .gb-fill {
   position: absolute; left: 0; top: 0; bottom: 0;
@@ -233,30 +236,18 @@ body.wall-mode { overflow: hidden; }
     rgba(0, 0, 0, 0.55) calc(10% - 2px), rgba(0, 0, 0, 0.55) 10%);
 }
 .gb-value {
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  font-family: Cinzel, Georgia, serif; font-weight: 900; font-size: 16.5px; color: #fff;
-  text-shadow: 0 1px 2px #000, 0 0 6px rgba(0, 0, 0, 0.9); letter-spacing: 0.08em;
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 3;
+  font-family: Cinzel, Georgia, serif; font-weight: 900; font-size: 19px; color: #fff;
+  text-shadow: 0 1px 2px #000, 0 0 7px rgba(0, 0, 0, 0.95); letter-spacing: 0.08em; padding-top: 8px; font-size: 18px;
 }
-.gb-rivet {
-  position: absolute; width: 7px; height: 7px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #ffe9b0, #8a6f35 55%, #2c2210);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
-}
-.gb-tl { top: -2px; left: -2px; } .gb-tr { top: -2px; right: -2px; }
-.gb-bl { bottom: -2px; left: -2px; } .gb-br { bottom: -2px; right: -2px; }
 .gb-gold { --gb-hi: #ffe9a8; --gb-mid: #e0b23e; --gb-lo: #9c7517; --gb-glow: rgba(224, 178, 62, 0.45); }
 .gb-blue { --gb-hi: #b8e0ff; --gb-mid: #4d8fd1; --gb-lo: #275a91; --gb-glow: rgba(77, 143, 209, 0.45); }
 .gb-red  { --gb-hi: #ff9d8a; --gb-mid: #d33a2a; --gb-lo: #7e1b12; --gb-glow: rgba(211, 58, 42, 0.45); }
-.gb-iron {
-  --gb-hi: #ff8d6b; --gb-mid: #b3220f; --gb-lo: #4d0c04; --gb-glow: rgba(179, 34, 15, 0.55);
-  background: linear-gradient(180deg, #3c3c44 0%, #1c1c22 35%, #0a0a0e 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.9), 0 2px 6px rgba(0, 0, 0, 0.8);
-}
-.gb-iron .gb-rivet { background: radial-gradient(circle at 35% 30%, #cfd2da, #5c606c 55%, #16161c); }
-.gb-hot { animation: plate-throb 1.6s infinite; }
+.gb-iron { --gb-hi: #ff8d6b; --gb-mid: #b3220f; --gb-lo: #4d0c04; --gb-glow: rgba(179, 34, 15, 0.55); }
+.gb-hot .gb-art { animation: plate-throb 1.6s infinite; }
 @keyframes plate-throb {
-  0%, 100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 10px rgba(224, 67, 45, 0.3); }
-  50% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 0 30px rgba(224, 67, 45, 0.7); }
+  0%, 100% { filter: drop-shadow(0 3px 5px rgba(0,0,0,0.6)) drop-shadow(0 0 6px rgba(224, 67, 45, 0.3)); }
+  50% { filter: drop-shadow(0 3px 5px rgba(0,0,0,0.6)) drop-shadow(0 0 18px rgba(224, 67, 45, 0.8)); }
 }
 .gb-gem {
   flex: 0 0 auto; width: 18px; height: 18px; border-radius: 50%; border: 2px solid #5a4a28;
