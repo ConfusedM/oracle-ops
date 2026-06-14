@@ -30,8 +30,8 @@ export default function HexMapPanel({ interactive, onHexTap }: { interactive?: b
               <polygon
                 points={hexPoints(x, y, HEX_R)}
                 className={`hex ${cleared ? 'hex-cleared' : 'hex-fog'} ${hs.glow ? 'hex-glow' : ''}`}
-                stroke={h.star ? 'var(--gold)' : h.rally ? 'var(--ward-blue)' : 'var(--line)'}
-                strokeWidth={h.star || h.rally ? 3 : 1.5}
+                stroke={h.star && interactive ? 'var(--gold)' : h.rally ? 'var(--ward-blue)' : 'var(--line)'}
+                strokeWidth={(h.star && interactive) || h.rally ? 3 : 1.5}
                 strokeDasharray={h.rally ? '6 4' : undefined}
               />
               <text x={x} y={y + (occupants.length ? -8 : 6)} textAnchor="middle"
