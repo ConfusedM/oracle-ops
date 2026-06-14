@@ -36,7 +36,7 @@ export default function HexMapPanel({ interactive, onHexTap }: { interactive?: b
               />
               <text x={x} y={y + (occupants.length ? -8 : 6)} textAnchor="middle"
                 className={`hex-id ${cleared ? '' : 'hex-id-fog'}`}>
-                {h.id}{h.star ? '★' : ''}
+                {h.id}{h.star && interactive ? '★' : ''}
               </text>
               {h.start && !cleared && (
                 <text x={x} y={y + 24} textAnchor="middle" className="hex-start">{h.start}</text>
